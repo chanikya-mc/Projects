@@ -11,15 +11,17 @@ function App() {
     const number = Math.floor(Math.random() * 10) + 1;
     setData(prevData => ({ ...prevData, number: number }));
     alert("secrete number is generated")
+    console.log(number);
   };
 
-  const handleNameChange = (e) => {
-    setData(prevData => ({ ...prevData, name: e.target.value }));
-  };
+  // const handleNameChange = (e) => {
+  //   setData(prevData => ({ ...prevData, name: e.target.value }));
+  // };
 
   const handleSubmitName = (e) => {
     e.preventDefault();
-    setData(prevData => ({ ...prevData, nameSubmitted: true }));
+    let name=document.getElementById("name").value.trim();
+    setData(prevData => ({ ...prevData, nameSubmitted: true ,name:name}));
   };
 
   const handleChange = (e) => {
@@ -37,9 +39,20 @@ function App() {
     const newCount = data.count - 1;
     let guessResult;
     if (guess === data.number) {
+
       guessResult = 'Congratulations! You guessed the correct number!';
+      setTimeout(()=>{setData({ number: null, term: "", name: "", count: 2, nameSubmitted: false, guessResult: null });
+    
+      document.getElementById("name").value="";
+      document.getElementById("term").value="";
+    },4000)
     } else if (newCount <= 0) {
       guessResult = 'Sorry, you are out of chances. The correct number was ' + data.number;
+      setTimeout(()=>{setData({ number: null, term: "", name: "", count: 2, nameSubmitted: false, guessResult: null });
+    
+      document.getElementById("name").value="";
+      document.getElementById("term").value="";
+    },4000)
     } else {
       guessResult = 'Try again!';
     }
@@ -66,8 +79,8 @@ function App() {
                   <input
                     type="text"
                     placeholder='Enter your name...'
-                    className='form-control me-2'
-                    onChange={handleNameChange}
+                    className='form-control me-2' id='name'
+                    
                   />
                   <button className="btn btn-outline-success " type="submit">Save</button>
                 </form>
@@ -105,7 +118,8 @@ function App() {
       <section className='mt-4' id='info'>
         
         <div className="row">
-          <div className="col-6 ms-5">
+        <div className="col-6 ms-5">
+          {data.name?
             <div className="card">
               <div className="card-header">
                 <h3>Player score board</h3>
@@ -131,15 +145,17 @@ function App() {
                   </tbody>
                 </table>
               </div>
-            </div>
+            
+          </div>:""}
           </div>
+          
           <div className="col">
             
             <p className='ms-5'>Instruction: <br />
             1.Enter player name and save it <br />
             2.Click on generateSecreteNumber(It will generate a random number between 1 to 10) <br />
             3.Enter the Guessed value in the number box and click on check button <br />
-            4. You have only 2 chances
+            4. You have only 2 chances<br/>
             5.If your guess is correct you will win the game 
             </p>
             
